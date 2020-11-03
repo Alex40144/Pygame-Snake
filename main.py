@@ -22,6 +22,13 @@ def show():
     pygame.display.flip()
 
 
+#
+# both lists in same table, display 0-70 snake pos element 100
+# direction = D variable
+# apple = A variable
+#
+#
+#
 
 
 display = [0]*70
@@ -50,7 +57,6 @@ def update():
         snakePos.pop()
 
     for i in range(0, len(display)):
-        print(i)
         if i in snakePos or i == apple:
             display[i] = 1
         else:
