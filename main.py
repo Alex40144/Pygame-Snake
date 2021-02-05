@@ -33,51 +33,52 @@ B = 1 #On
 C = 0 #Off
 D = 0 #Direction
 E = 0 #Snake Length
-F = 80 #TEMP
+F = 45 #TEMP
 G = 0 #TEMP
 H = 0 #HEAD
 I = 0 #ITERATOR
 J = 0 #TEMP
 
-array = [0]*255
+array = [0]*200
 
 array[100] = F
+A = random.randint(0,69)
 
 
 def up():
     global H
     global array
-    H = array[0]
+    H = array[100]
     shift_snake()
     H = H - 10
-    array[0] = H
+    array[100] = H
     return
 
 def down():
     global H
     global array
-    H = array[0]
+    H = array[100]
     shift_snake()
     H = H + 10
-    array[0] = H
+    array[100] = H
     return
 
 def left():
     global H
     global array
-    H = array[0]
+    H = array[100]
     shift_snake()
     H = H - 1
-    array[0] = H
+    array[100] = H
     return
 
 def right():
     global H
     global array
-    H = array[0]
+    H = array[100]
     shift_snake()
     H = H + 1
-    array[0] = H
+    array[100] = H
     return
 
 def shift_snake():
@@ -88,7 +89,7 @@ def shift_snake():
     global G
     global array
     get_snake_length()
-    for I in range(100, E):
+    for I in range(99 + E, 99, -1):
         G = array[I]
         F = I + 1
         array[F] = G
@@ -99,10 +100,11 @@ def get_snake_length():
     global F
     global E
     global array
-    for I in range(0,70):
+    for I in range(100,170):
         F = array[I]
         if F == 0:
             E = I
+            E = E - 100
             break
     return
 
@@ -112,8 +114,14 @@ def remove_last_snake():
     global E
     global array
     get_snake_length()
-    array[E] = C
+    array[99 + E] = C
     return
+
+def clear_display():
+    global array
+    global I
+    for I in range(0,70):
+        array[I] = C
 
 
 
@@ -135,30 +143,31 @@ def update():
     elif D == 1:
         right()
     elif D == 2:
-        down
+        down()
     elif D == 3:
-        left
+        left()
 
     H = array[100]
     if H == A:
         A = random.randint(1,70)
-    remove_last_snake()
-    for I in range(0,69):
-        E = I + 100
-        F = array[E]
-        if F == I:
-            array[I] = B
-        else:
-            array[I] = C
-        
-        if I == A:
-            array[I] = B
+    else:
+        remove_last_snake()
+
+    #move snake position to display
+    get_snake_length()
+    clear_display()
+    for I in range(E):
+        F = array[I + 100]
+        G = F-1
+        array[G] = B
+    
+    F = A - 1
+    array[F] = B
     
     show(display = array[0:70])
     return
 
 while True:
-    print("loop")
     #quit
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
