@@ -5,7 +5,7 @@ pygame.init()
 screen = pygame.display.set_mode((1000,500))
 pygame.display.set_caption("SNAKE!")
 
-def show():
+def show(display):
     square_size = 40
     for x in range(0, 10):
         for y in range(0,7):
@@ -26,44 +26,139 @@ def show():
 # both lists in same table, display 0-70 snake pos element 100
 # direction = D variable
 # apple = A variable
-#
-#
-#
 
 
-display = [0]*70
-snakePos = [35, 45]
-direction = 0
-apple = 22
+A = 0 #Apple
+B = 1 #On
+C = 0 #Off
+D = 0 #Direction
+E = 0 #Snake Length
+F = 80 #TEMP
+G = 0 #TEMP
+H = 0 #HEAD
+I = 0 #ITERATOR
+J = 0 #TEMP
+
+array = [0]*255
+
+array[100] = F
+
+
+def up():
+    global H
+    global array
+    H = array[0]
+    shift_snake()
+    H = H - 10
+    array[0] = H
+    return
+
+def down():
+    global H
+    global array
+    H = array[0]
+    shift_snake()
+    H = H + 10
+    array[0] = H
+    return
+
+def left():
+    global H
+    global array
+    H = array[0]
+    shift_snake()
+    H = H - 1
+    array[0] = H
+    return
+
+def right():
+    global H
+    global array
+    H = array[0]
+    shift_snake()
+    H = H + 1
+    array[0] = H
+    return
+
+def shift_snake():
+    global H
+    global I
+    global F
+    global E
+    global G
+    global array
+    get_snake_length()
+    for I in range(100, E):
+        G = array[I]
+        F = I + 1
+        array[F] = G
+    return
+
+def get_snake_length():
+    global I
+    global F
+    global E
+    global array
+    for I in range(0,70):
+        F = array[I]
+        if F == 0:
+            E = I
+            break
+    return
+
+
+def remove_last_snake():
+    global C
+    global E
+    global array
+    get_snake_length()
+    array[E] = C
+    return
+
+
 
 def update():
-    global display
-    global direction
-    global apple
-    global snakePos
+    global A
+    global B
+    global C
+    global D
+    global E
+    global F
+    global G
+    global H
+    global I
+    global J
+    global array
 
-    if direction == 0:
-        snakePos.insert(0, snakePos[0] - 10)
-    elif direction == 1:
-        snakePos.insert(0, snakePos[0] + 1)
-    elif direction == 2:
-        snakePos.insert(0, snakePos[0] + 10)
-    elif direction == 3:
-        snakePos.insert(0, snakePos[0] - 1)
+    if D == 0:
+        up()
+    elif D == 1:
+        right()
+    elif D == 2:
+        down
+    elif D == 3:
+        left
 
-    if snakePos[0] == apple:
-        apple = random.randint(0,70)
-    else:
-        snakePos.pop()
-
-    for i in range(0, len(display)):
-        if i in snakePos or i == apple:
-            display[i] = 1
+    H = array[100]
+    if H == A:
+        A = random.randint(1,70)
+    remove_last_snake()
+    for I in range(0,69):
+        E = I + 100
+        F = array[E]
+        if F == I:
+            array[I] = B
         else:
-            display[i] = 0
-    show()
+            array[I] = C
+        
+        if I == A:
+            array[I] = B
+    
+    show(display = array[0:70])
+    return
 
 while True:
+    print("loop")
     #quit
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -71,14 +166,14 @@ while True:
             sys.exit()
         elif event.type == pygame.KEYDOWN:
             if event.key == pygame.K_LEFT:
-                direction = direction - 1
+                D = D - 1
             if event.key == pygame.K_RIGHT:
-                direction = direction + 1
+                D = D + 1
 
-            if direction > 3:
-                direction = 0
-            if direction < 0:
-                direction = 3
+            if D > 3:
+                D = 0
+            if D < 0:
+                D = 3
 
     update()
     time.sleep(1)
