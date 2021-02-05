@@ -114,7 +114,8 @@ def remove_last_snake():
     global E
     global array
     get_snake_length()
-    array[99 + E] = C
+    G = 99 + E
+    array[G] = C
     return
 
 def clear_display():
@@ -157,9 +158,10 @@ def update():
     get_snake_length()
     clear_display()
     for I in range(E):
-        F = array[I + 100]
-        G = F-1
-        array[G] = B
+        G = I + 100
+        F = array[G]
+        F = F-1
+        array[F] = B
     
     F = A - 1
     array[F] = B
