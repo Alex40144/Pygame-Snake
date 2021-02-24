@@ -181,10 +181,10 @@ while True:
             if event.key == pygame.K_RIGHT:
                 D = D + 1
 
-            if D > 3:
-                D = 0
-            if D < 0:
-                D = 3
+    if D > 3:
+        D = 0
+    if D < 0:
+        D = 3
 
     update()
     time.sleep(1)
